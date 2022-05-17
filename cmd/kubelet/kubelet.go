@@ -37,7 +37,7 @@ import (
 )
 
 func main() {
-	command := app.NewKubeletCommand()
+	command := app.NewKubeletCommand() // 关键点在这里，直接进去撸
 
 	// kubelet uses a config file and does its own special
 	// parsing of flags and that config file. It initializes

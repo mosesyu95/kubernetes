@@ -1466,14 +1466,14 @@ func (kl *Kubelet) Run(updates <-chan kubetypes.PodUpdate) {
 		go kl.cloudResourceSyncManager.Run(wait.NeverStop)
 	}
 
-	if err := kl.initializeModules(); err != nil {
+	if err := kl.initializeModules(); err != nil { //  初始化不依赖容器运行的模块
 		kl.recorder.Eventf(kl.nodeRef, v1.EventTypeWarning, events.KubeletSetupFailed, err.Error())
 		klog.ErrorS(err, "Failed to initialize internal modules")
 		os.Exit(1)
 	}
 
 	// Start volume manager
-	go kl.volumeManager.Run(kl.sourcesReady, wait.NeverStop)
+	go kl.volumeManager.Run(kl.sourcesReady, wait.NeverStop) // 开启卷挂载
 
 	if kl.kubeClient != nil {
 		// Introduce some small jittering to ensure that over time the requests won't start
